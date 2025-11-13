@@ -10,38 +10,34 @@ public class Login extends JFrame implements ActionListener{
     JPasswordField tfpassword;
     
     Login(){
-        // Frame of login page
+        
         setSize(900,400);
         setLocation(350,200);
-        
-       
         setLayout(null); 
-        
         getContentPane().setBackground(Color.WHITE);
         
-        // We use panel to divide freame into 2 parts
+        // Panel p1 (Image Panel)
         JPanel p1 = new JPanel();
         p1.setBackground(new Color(131, 193, 233));
         p1.setBounds(0, 0, 400, 400);
         p1.setLayout(null);
         add(p1);
         
-        // Image/Logo (Images/Logo ko hum rehne denge, kyunki yeh GUI ka hissa hain)
-        // Make sure "icons/login.png" file is available in your project's resource folder.
+        // Image/Logo
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/login.png"));
-        Image i2 = i1.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT); 
+        Image i2 = i1.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel image = new JLabel(i3);
         image.setBounds(100, 120, 200, 200);
         p1.add(image);
         
-        
+        // Panel p2 (Form Panel)
         JPanel p2 = new JPanel();
         p2.setLayout(null);
         p2.setBounds(400, 2, 550, 400);
         add(p2);
         
-        // Username Label and Field
+        // Username, Password Labels and Fields
         JLabel lblusername = new JLabel("Username");
         lblusername.setBounds(60,30,100,25);
         lblusername.setFont(new Font("SAN_SERIF", Font.PLAIN, 20));
@@ -52,7 +48,6 @@ public class Login extends JFrame implements ActionListener{
         tfusername.setBorder(BorderFactory.createEmptyBorder());
         p2.add(tfusername);
         
-        // Password Label and Field
         JLabel lblpassword = new JLabel("Password");
         lblpassword.setBounds(60,110,100,25);
         lblpassword.setFont(new Font("SAN_SERIF", Font.PLAIN, 20));
@@ -63,34 +58,32 @@ public class Login extends JFrame implements ActionListener{
         tfpassword.setBorder(BorderFactory.createEmptyBorder());
         p2.add(tfpassword);
         
-        // Login Button
+        // Buttons: Event Handling is active
         login = new JButton("Login");
         login.setBounds(60, 200, 130, 30);
         login.setBackground(new Color(133, 193, 233));
         login.setForeground(Color.WHITE);
         login.setBorder(BorderFactory.createEmptyBorder());
-        login.addActionListener(this);
+        login.addActionListener(this); // Event Handler Attached
         p2.add(login);
         
-        // Signup Button
         singup = new JButton("Signup");
         singup.setBounds(230, 200, 130, 30);
         singup.setBackground(new Color(133, 193, 233));
         singup.setForeground(Color.WHITE);
         singup.setBorder(BorderFactory.createEmptyBorder());
-        singup.addActionListener(this);
+        singup.addActionListener(this); // Event Handler Attached
         p2.add(singup);
         
-        // Forget Password Button
         password = new JButton("Forget Password");
         password.setBounds(130, 250, 130, 30);
         password.setBackground(new Color(133, 193, 233));
         password.setForeground(Color.WHITE);
         password.setBorder(BorderFactory.createEmptyBorder());
-        password.addActionListener(this);
+        password.addActionListener(this); // Event Handler Attached
         p2.add(password);
         
-        // Copyright and Trouble Label (Retained for visual design)
+        // Copyright and Trouble Label
         JLabel copyright = new JLabel(" Copyright © 2025 (Shahroz) All rights reserved.");
         copyright.setBounds(60, 290, 300, 20);
         copyright.setFont(new Font("SAN_SERIF", Font.PLAIN, 11));
@@ -105,46 +98,29 @@ public class Login extends JFrame implements ActionListener{
         setVisible(true);
     }
     
-    // --- Functionality (ActionListener) is Commented Out ---
+    
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource()== login){
-            // try/catch block for database connection is commented out:
-            /*
-            try{
-                String username = tfusername.getText();
-                String pass = tfpassword.getText();
-                
-                String query = "select * from account where username = '"+username+"' AND password = '"+pass+"'";
-                Conn c = new Conn();
-                ResultSet rs = c.s.executeQuery(query);
-                if(rs.next()){
-                    setVisible(false);
-                    new Loading(username);
-                }else{
-                    JOptionPane.showMessageDialog(null,"incoorect username or password");
-                }
-            }catch(Exception e){
-                 e.printStackTrace();
-            }
-            */
-            JOptionPane.showMessageDialog(null, "Login functionality disabled for Module 2 structure testing.");
+            // --- LOGIN LOGIC: Database code REMOVED. ---
+            String username = tfusername.getText();
             
-            // To immediately test Dashboard:
-            // setVisible(false);
-            // new DashboardScreen(); 
+            setVisible(false);
+            
+            // --- FINAL FIX: Calling Loading Screen ---
+            // Loading screen will handle the thread and automatically open the Dashboard.
+            new Loading(username); 
             
         }else if (ae.getSource()== singup){
-            // setVisible(false);
-            // new Signup(); // Functionality disabled
-            JOptionPane.showMessageDialog(null, "Signup functionality disabled for Module 2 structure testing.");
+            setVisible(false);
+            new Signup(); // <--- Requires Signup.java
             
         }else if(ae.getSource()== password){
-            // setVisible(false);
-            // new ForgetPassword(); // Functionality disabled
-            JOptionPane.showMessageDialog(null, "Forget Password functionality disabled for Module 2 structure testing.");
+            setVisible(false);
+            new ForgetPassword(); // <--- Requires ForgetPassword.java
         }
     }
     
-    // Main method is removed as Splash.java will handle the main application startup.
-    // public static void main(String[] args){ new Login(); }
+    public static void main(String[] args){
+        new Login();
+   } 
 }
