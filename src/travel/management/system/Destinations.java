@@ -4,25 +4,19 @@ import java.awt.*;
 
 public class Destinations extends JFrame implements Runnable{
     
-    Thread t1; 
-    // Replaced manual declarations (l1, l2...) with direct array allocation
-    // This prevents NullPointerExceptions before the images are loaded in the loop.
-    JLabel[] label = new JLabel[10]; 
+    Thread t1;  // using thraeding concept for slide show
+    JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
+    JLabel[] label = new JLabel[]{l1,l2,l3,l4,l5,l6,l7,l8,l9,l10};
 
     
     public void run(){
-        // Loop runs 9 times (i=0 to 8)
+        
         try{
             for(int i=0; i<9; i++){
-                // Ensure the label is initialized before calling setVisible
-                if (label[i] != null) {
-                    label[i].setVisible(true);
-                }
-                Thread.sleep(2500);  // 2.5 sec delay
+                label[i].setVisible(true);
+                Thread.sleep(2500);  // stod exceution after 2.5 sec
+                label[i].setVisible(false);
                 
-                if (label[i] != null) {
-                    label[i].setVisible(false);
-                }
             }
             // Close the frame after the slideshow
             dispose();
@@ -33,32 +27,32 @@ public class Destinations extends JFrame implements Runnable{
     }
     
     Destinations(){
-        // in this class we display a slide show of our destinations images
+        // in this class we display a slide show of our destinations  images
         setBounds(500,200,800,600);
-        setLocationRelativeTo(null); 
-        setLayout(null); // Explicitly set layout to null for absolute positioning (important for slideshow)
+        setLocationRelativeTo(null);  //  to place in center of window
         
-        // --- Image Loading Loop ---
-        ImageIcon[] image = new ImageIcon[10]; 
-        Image[] jimage = new Image[10];
-        ImageIcon[] kimage = new ImageIcon[10]; 
+        // we have 10 images to dispaly a slide show we can create in two ways manually creating 10 differnts obj or dynamically insert
         
-        // Note: Loop runs 9 times (i=0 to 8)
+        // array of an images
+        
+        ImageIcon  i1=null,i2=null,i3=null,i4=null,i5=null,i6=null,i7=null,i8=null,i9=null,i10=null;
+        ImageIcon[] image = new ImageIcon[]{i1,i2,i3,i4,i5,i6,i7,i8,i9,i10}; 
+        
+        Image  j1=null,j2=null,j3=null,j4=null,j5=null,j6=null,j7=null,j8=null,j9=null,j10=null;
+        Image[] jimage = new Image[]{j1,j2,j3,j4,j5,j6,j7,j8,j9,j10};
+        
+        ImageIcon  k1=null,k2=null,k3=null,k4=null,k5=null,k6=null,k7=null,k8=null,k9=null,k10=null;
+        ImageIcon[] kimage = new ImageIcon[]{k1,k2,k3,k4,k5,k6,k7,k8,k9,k10}; 
+        
         for(int i=0; i<9; i++){
             
-            // Image files must be named dest1.jpg to dest9.jpg
-            image[i] = new ImageIcon(ClassLoader.getSystemResource("icons/dest"+(i+1)+".jpg"));
-            jimage[i] = image[i].getImage().getScaledInstance(800, 600, Image.SCALE_DEFAULT);
-            kimage[i] = new ImageIcon(jimage[i]);
-            
-            // Initialize the JLabel inside the loop
-            label[i] = new JLabel(kimage[i]);
-            label[i].setBounds(0, 0, 800, 600);
-            add(label[i]);
-            
-            // Initially hide all labels; run() will make them visible one by one
-            label[i].setVisible(false);
-        }
+         image[i] = new ImageIcon(ClassLoader.getSystemResource("icons/dest"+(i+1)+".jpg"));
+        jimage[i] = image[i].getImage().getScaledInstance(800, 600, Image.SCALE_DEFAULT);
+        kimage[i] = new ImageIcon(jimage[i]);
+       label[i] = new JLabel(kimage[i]);
+        label[i].setBounds(0, 0, 800, 600);
+        add(label[i]);
+    }
         
         t1 = new Thread(this);
         t1.start();
@@ -66,7 +60,7 @@ public class Destinations extends JFrame implements Runnable{
         setVisible(true);
     }
     
-    public static void main(String[]args){
-        new Destinations();
-    }
+   public static void main(String[]args){
+       new Destinations();
+   } 
 }
