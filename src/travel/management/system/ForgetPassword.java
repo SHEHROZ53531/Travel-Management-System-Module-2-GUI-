@@ -2,6 +2,7 @@ package travel.management.system;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.*;
 
 
 public class ForgetPassword extends JFrame implements ActionListener{
@@ -116,26 +117,43 @@ public class ForgetPassword extends JFrame implements ActionListener{
   
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource()== search){
-            
-            
-            // Temporary Logic for Week 2
-            tfname.setText("Shahroz Ali"); // Dummy Data
-            tfquestion.setText("Your Lucky Number"); // Dummy Data
-            JOptionPane.showMessageDialog(null, "User found (Database skipped for Week 2).");
+            try{
+                String query = "select * from account where username = '"+tfusername.getText()+"'";
+                Conn c = new Conn();
+               ResultSet rs = c.s.executeQuery(query); 
+             if (rs.next()) {
+                    tfname.setText(rs.getString("name"));
+                    tfquestion.setText(rs.getString("security"));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Incorrect username. Please try again.");
+                }
+                
+              }catch(Exception e){
+                e.printStackTrace();
+            }
             
         }else if(ae.getSource()== retrive){
+            try{
+                
+                String query = "select * from account where answer = '"+tfanswer.getText()+"' AND username ='"+tfusername.getText()+"'";
+                Conn c = new Conn();
+               ResultSet rs = c.s.executeQuery(query); 
+               // down
+               if (rs.next()) {
+                    tfpassword.setText(rs.getString("password"));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Incorrect security answer. Please try again.");
+                }
+                // up
+              }catch(Exception e){
+                e.printStackTrace();
+            }
             
-            
-            // Temporary Logic for Week 2
-            tfpassword.setText("temporarypass123"); // Dummy Password
-            JOptionPane.showMessageDialog(null, "Password retrieved (Database skipped for Week 2).");
-            
-        }else if(ae.getSource()== back){    // Back button press
+        }else{   // if back button press
             setVisible(false);
-            new Login(); // Navigate to Login Screen
+            new Login();
         }
     }
-    
     public static void main(String[]args){
         
         new ForgetPassword();

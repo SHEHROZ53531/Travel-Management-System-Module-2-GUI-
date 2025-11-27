@@ -2,7 +2,7 @@ package travel.management.system;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.sql.*;
 
 public class Login extends JFrame implements ActionListener{
     JButton login,singup,password;
@@ -101,24 +101,35 @@ public class Login extends JFrame implements ActionListener{
     
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource()== login){
-            // --- LOGIN LOGIC: Database code REMOVED. ---
-            String username = tfusername.getText();
-            
-            setVisible(false);
-            
-            // --- FINAL FIX: Calling Loading Screen ---
-            // Loading screen will handle the thread and automatically open the Dashboard.
-            new Loading(username); 
+            try{
+               String username = tfusername.getText();
+               String pass = tfpassword.getText(); 
+               
+               String query = "select * from account where username = '"+username+"' AND password = '"+pass+"'";
+               Conn c = new Conn();
+               ResultSet rs = c.s.executeQuery(query);
+               if(rs.next()){
+                   setVisible(false);
+                   new Loading(username);
+                   
+               }else{
+                   JOptionPane.showMessageDialog(null,"incorrect username or password");
+               }
+               
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             
         }else if (ae.getSource()== singup){
             setVisible(false);
-            new Signup(); // <--- Requires Signup.java
+            new Signup();
             
-        }else if(ae.getSource()== password){
+        }else{
             setVisible(false);
-            new ForgetPassword(); // <--- Requires ForgetPassword.java
+            new ForgetPassword();
         }
     }
+    
     
     public static void main(String[] args){
         new Login();

@@ -120,27 +120,36 @@ public class Signup extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent ae){
         
         if(ae.getSource()== create){
-            // Data collection (Retained)
             String username = tfusername.getText();
             String name = tfname.getText();
             String password = tfpassword.getText();
             String question = security.getSelectedItem();
             String answer = tfanswer.getText();
             
+            String query = "insert into account values('"+username+"', '"+name+"', '"+password+"', '"+question+"','"+answer+"' )";
             
-            
-            // Temporary Success Message for Week 2
-            JOptionPane.showMessageDialog(null, "Account Creation Success! (Database skipped for Week 2)");
-            setVisible(false);
-            new Login(); // Navigate to Login Screen
+            try{
+                Conn c = new Conn();  // connection class object to hit sql querry
+                
+                c.s.executeUpdate(query);
+                JOptionPane.showMessageDialog(null, "Account Created Sucessfully");
+                // when ok button click close current frame and open login page
+                setVisible(false);
+                new Login();
+                
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             
         }else if (ae.getSource()== back){
-            // Back button functionality
+            // if back button presss close current frame and open login frame
             setVisible(false);
-            new Login(); // Navigate to Login Screen
+            new Login();
+            
         }
-    }
-    
+        
+    }    
     public static void main(String[]args){
         
         new Signup();  // signup class object
