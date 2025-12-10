@@ -103,6 +103,8 @@ public class Login extends JFrame implements ActionListener{
         if(ae.getSource()== login){
             try{
                String username = tfusername.getText();
+               
+               // Recommended secure method char[] passwordChars = tfpassword.getPassword(); 
                String pass = tfpassword.getText(); 
                
                String query = "select * from account where username = '"+username+"' AND password = '"+pass+"'";
